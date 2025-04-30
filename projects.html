@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Harsh Singla</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #98FF98; /* Mint green */
+      --primary-dark: #7AE57A; /* Slightly darker mint */
+      --dark: #2E2E2E; /* Dark gray */
+      --light: #f4f4f4;
+      --gray: #444; /* Darker gray */
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      scroll-behavior: smooth;
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--dark);
+      padding: 1.5rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(152, 255, 152, 0.2);
+    }
+
+    .logo {
+        color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 15px rgba(152, 255, 152, 0.5);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links li a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+    
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: var(--primary);
+    }
+
+    .nav-links li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-links li a:hover::after,
+    .nav-links li a.active::after {
+      width: 100%;
+    }
+
+    /* Main Content */
+    .section {
+      padding: 6rem 10% 3rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: var(--primary);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s;
+    }
+
+    .section-title.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 4px;
+      background-color: var(--primary);
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* Project Cards */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: #3a3a3a;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      border: 1px solid #555;
+    }
+
+    .project-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(152, 255, 152, 0.2);
+      border-color: var(--primary);
+    }
+
+    .project-image {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+      filter: grayscale(30%);
+    }
+
+    .project-card:hover .project-image img {
+      transform: scale(1.1);
+      filter: grayscale(0%);
+    }
+
+    .project-content {
+      padding: 1.5rem;
+    }
+
+    .project-card h3 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.4rem;
+    }
+
+    .project-card p {
+      color: #ccc;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .tech-item {
+      background-color: #555;
+      color: #fff;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      background-color: var(--primary);
+      color: #2E2E2E;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(152, 255, 152, 0.4);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: #2E2E2E;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #252525;
+      color: #ccc;
+      border-top: 1px solid var(--primary);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .social-links a {
+      color: #ccc;
+      font-size: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary);
+      color: #2E2E2E;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section {
+        padding: 5rem 5% 2rem;
+      }
+      
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Harsh Singla</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="posters.html">Posters</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section projects">
+      <h2 class="section-title">Hackathon & Web Projects</h2>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image">
+            <img src="https://images.unsplash.com/photo-1485291571150-772bcfc10da5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Car Rental Website">
+          </div>
+          <div class="project-content">
+            <h3>Moving Wheel – Car Rental Website</h3>
+            <p>Developed a dynamic car rental platform with real-time tracking using Leaflet.js and OpenStreetMap. Integrated Node.js backend with MongoDB for vehicle management.</p>
+            <div class="tech-stack">
+              <span class="tech-item">HTML</span>
+              <span class="tech-item">CSS</span>
+              <span class="tech-item">JavaScript</span>
+              <span class="tech-item">Node.js</span>
+              <span class="tech-item">MongoDB</span>
+              <span class="tech-item">Leaflet.js</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Project</a>
+              <a href="#" class="btn btn-outline">Code</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Music Recommendation System">
+          </div>
+          <div class="project-content">
+            <h3>Music Recommendation System</h3>
+            <p>Created during a tech hunt competition to recommend music based on user mood and genre preference using machine learning concepts and collaborative filtering.</p>
+            <div class="tech-stack">
+              <span class="tech-item">Python</span>
+              <span class="tech-item">Scikit-learn</span>
+              <span class="tech-item">Pandas</span>
+              <span class="tech-item">Flask</span>
+              <span class="tech-item">HTML/CSS</span>
+              <span class="tech-item">spotify API</span>
+              <span class="tech-item">javascript</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Project</a>
+              <a href="#" class="btn btn-outline">Code</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-image">
+            <img src="https://eu-images.contentstack.com/v3/assets/blt69509c9116440be8/bltfab6810288157b12/64cb1814dd62f552de45ef01/voice-lassedesignen-stock.jpg?width=1280&auto=webp&quality=95&format=jpg&disable=upscale" alt="voice assistant system">
+          </div>
+          <div class="project-content">
+            <h3>SaviaBot – Smart Assistant Made with Python</h3>
+            <p>Savia is a smart personal assistant built using Python, designed to simplify daily tasks with voice commands and automation. From answering queries to opening apps and fetching information, Savia acts like your very own desktop companion..</p>
+            <div class="tech-stack">
+              <span class="tech-item">Python</span>
+              <span class="tech-item">SpeechRecognition</span>
+              <span class="tech-item">pyttsx3</span>
+              <span class="tech-item">Wikipedia</span>
+              <span class="tech-item">Webbrowser module</span>
+              <span class="tech-item">OS module</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Project</a>
+              <a href="#" class="btn btn-outline">Code</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-image">
+            <img src="https://miro.medium.com/v2/resize:fit:1400/1*AFYCel-ghv6MqSvIry9gNg.png" alt="Weather Forecast System">
+          </div>
+          <div class="project-content">
+            <h3>Weather Forecast System</h3>
+            <p>The Weather Forecast System is a Python-based application that provides real-time weather updates for any city around the world. It uses a clean and simple interface to display current temperature, humidity, wind speed, and weather conditions.</p>
+            <div class="tech-stack">
+              <span class="tech-item">Python</span>
+              <span class="tech-item">Tkinter</span>
+              <span class="tech-item">request library</span>
+              <span class="tech-item">OpenWeatherMap API</span>
+              <span class="tech-item">HTML/CSS</span>
+              <span class="tech-item">spotify API</span>
+              <span class="tech-item">javascript</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="btn">View Project</a>
+              <a href="#" class="btn btn-outline">Code</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Photoshop & Design Projects</h2>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image">
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/source/5c3403136664815.61fd5c2120121.jpg" alt="Hackathon Posters">
+          </div>
+          <div class="project-content">
+            <h3>Poster Series </h3>
+            <p>Designed multiple eye-catching posters for advertising and for events using Adobe Photoshop, featuring modern design elements and vibrant color schemes.</p>
+            <div class="tech-stack">
+              <span class="tech-item">Adobe Photoshop</span>
+              <span class="tech-item">Illustrator</span>
+              <span class="tech-item">Typography</span>
+              <span class="tech-item">Color Theory</span>
+            </div>
+            <a href="posters.html" class="btn">View Gallery</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Brand Identity">
+          </div>
+          <div class="project-content">
+            <h3>Campus Tech Club Branding</h3>
+            <p>Created complete brand identity for university tech club including logo, social media templates, and promotional materials with consistent visual language.</p>
+            <div class="tech-stack">
+              <span class="tech-item">Adobe Illustrator</span>
+              <span class="tech-item">Photoshop</span>
+              <span class="tech-item">Brand Identity</span>
+              <span class="tech-item">Vector Graphics</span>
+            </div>
+            <a href="#" class="btn">View Case Study</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/harsh-singla-02683832a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/harsh-singla09" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/harsh.singla.3133?igsh=aDgwNG5lc2VhNjhk" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.behance.net/harshsingla6" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+    </div>
+  
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+  <script>
+    // Scroll animations
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.section-title, .project-card');
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        
+        if (elementPosition < screenPosition) {
+          element.classList.add('show');
+        }
+      });
+    };
+
+    // Run on load and scroll
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+
+    // Back to top button
+    const backToTopButton = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+        backToTopButton.setAttribute('href', '#');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    // Update active nav link on scroll
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY;
+      
+      document.querySelectorAll('section').forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.id;
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          document.querySelectorAll('.nav-links li a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === 'projects.html') {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    });
+
+    // Project card hover effects
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.querySelector('img').style.transform = 'scale(1.1)';
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.querySelector('img').style.transform = 'scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posters | Harsh Singla</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #98FF98; /* Mint green accent */
+      --primary-dark: #7AD07A; /* Darker mint */
+      --dark: #2E2E2E; /* Dark gray background */
+      --darker: #252525; /* Slightly darker for contrast */
+      --light: #F5F5F5; /* Off-white text */
+      --gray: #3D3D3D; /* Medium gray for elements */
+      --card-bg: #383838; /* Card background */
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5%;
+      background-color: var(--darker);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      color: var(--primary);
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 15px rgba(152, 255, 152, 0.5);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links li a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+    
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: var(--primary);
+    }
+
+    .nav-links li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-links li a:hover::after,
+    .nav-links li a.active::after {
+      width: 100%;
+    }
+
+    /* Main Content */
+    .section {
+      padding: 8rem 10% 4rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 4rem;
+      color: var(--primary);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s;
+      font-weight: 700;
+    }
+
+    .section-title.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 4px;
+      background-color: var(--primary);
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* Poster Gallery */
+    .poster-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .poster-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      opacity: 0;
+      transform: translateY(30px);
+      aspect-ratio: 3/4;
+      background-color: var(--card-bg);
+      border: 1px solid rgba(152, 255, 152, 0.1);
+    }
+
+    .poster-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .poster-item:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(152, 255, 152, 0.2);
+      border-color: rgba(152, 255, 152, 0.3);
+    }
+
+    .poster-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .poster-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .poster-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 2rem;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.4s;
+      backdrop-filter: blur(5px);
+    }
+
+    .poster-item:hover .poster-overlay {
+      opacity: 1;
+    }
+
+    .poster-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .poster-description {
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      color: rgba(245,245,245,0.8);
+      font-weight: 300;
+    }
+
+    .view-btn {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      background-color: var(--primary);
+      color: var(--darker);
+      text-decoration: none;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(152, 255, 152, 0.3);
+    }
+
+    .view-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(152, 255, 152, 0.4);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.95);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .modal.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 8px;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 50px rgba(152, 255, 152, 0.2);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: white;
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .close-modal:hover {
+      color: var(--primary);
+      transform: scale(1.2);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem;
+      background-color: var(--darker);
+      color: var(--light);
+      border-top: 1px solid var(--gray);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-links a {
+      color: var(--light);
+      font-size: 1.8rem;
+      transition: all 0.3s;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--gray);
+    }
+
+    .social-links a:hover {
+      color: var(--darker);
+      transform: translateY(-5px) scale(1.1);
+      background-color: var(--primary);
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary);
+      color: var(--darker);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 999;
+      box-shadow: 0 4px 20px rgba(152, 255, 152, 0.3);
+      font-size: 1.5rem;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .section {
+        padding: 7rem 5% 3rem;
+      }
+      
+      .nav-links {
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 6rem 5% 2rem;
+      }
+      
+      .poster-gallery {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 2.2rem;
+      }
+
+      .modal-content img {
+        max-height: 80vh;
+      }
+
+      .close-modal {
+        top: 20px;
+        right: 20px;
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .navbar {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        margin-top: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 3rem;
+      }
+
+      .poster-overlay {
+        padding: 1.5rem;
+      }
+
+      .poster-title {
+        font-size: 1.2rem;
+      }
+
+      .poster-description {
+        font-size: 0.85rem;
+      }
+
+      .view-btn {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">Harsh Singla</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="posters.html" class="active">Posters</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section posters">
+      <h2 class="section-title">My Poster Designs</h2>
+      <div class="poster-gallery">
+        <div class="poster-item">
+          <img src="image/WhatsApp Image 2025-04-16 at 7.34.05 PM (1).jpeg" alt="Shoe Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Shoe</h3>
+            <p class="poster-description">Official poster of shoe - Wear it and feel comfortable</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/WhatsApp Image 2025-04-16 at 7.34.05 PM (2).jpeg" alt="Burger Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Cheesy Burger</h3>
+            <p class="poster-description">Promotional poster of fully loaded Burger</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/g-wagon.jpeg" alt="Burger Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">G-Wagon Car</h3>
+            <p class="poster-description">Luxury Meets Power — The Legend Reimagined.</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/headphone.jpeg" alt="Burger Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Boss Headphone</h3>
+            <p class="poster-description">Feel Every Beat. Hear the Boss.</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/perfume.jpeg" alt="Burger Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Shalimar Perfume</h3>
+            <p class="poster-description">Whispered Love in Every Drop.</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/colgate.jpeg" alt="Burger Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Colgate</h3>
+            <p class="poster-description">Start Every Smile with Colgate.</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <h3>hii my name is harsh singla canyou give me you name thendnjdnjdn;</h3>
+
+        <div class="poster-item">
+          <img src="image/new-year.jpeg" alt="Burger Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">New Year 2025</h3>
+            <p class="poster-description">Cheers to 2025 – A Year of New Dreams & Big Wins!</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/WhatsApp Image 2025-04-16 at 7.34.05 PM.jpeg" alt="Concert Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Karan Aujla</h3>
+            <p class="poster-description">Promotional poster for KARAN AUJLA concert in Chandigarh</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/WhatsApp Image 2025-04-16 at 7.34.06 PM (2).jpeg" alt="Festival Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Ganesh Chaturthi</h3>
+            <p class="poster-description">Poster for Ganesh Chaturthi Hindu festival</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="image/WhatsApp Image 2025-04-16 at 7.34.06 PM.jpeg" alt="Magazine Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Magazine Cover</h3>
+            <p class="poster-description">Magazine cover design written by AASTHA SHARMA</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+
+        <div class="poster-item">
+          <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Art Poster">
+          <div class="poster-overlay">
+            <h3 class="poster-title">Digital Art Showcase</h3>
+            <p class="poster-description">Typography-focused design for student art exhibition</p>
+            <button class="view-btn view-poster">View Full Size</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal for full-size poster view -->
+  <div class="modal" id="posterModal">
+    <span class="close-modal">&times;</span>
+    <div class="modal-content">
+      <img id="modalImage" src="" alt="Full size poster">
+    </div>
+  </div>
+
+  <footer>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/harsh-singla-02683832a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/harsh-singla09" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/harsh.singla.3133?igsh=aDgwNG5lc2VhNjhk" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.behance.net/harshsingla6" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+    </div>
+    <p style="margin-top: 1.5rem; color: var(--primary);">&copy; 2023 Harsh Singla. All Rights Reserved.</p>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+  <script>
+    // Scroll animations
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.section-title, .poster-item');
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        
+        if (elementPosition < screenPosition) {
+          element.classList.add('show');
+        }
+      });
+    };
+
+    // Run on load and scroll
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+
+    // Back to top button
+    const backToTopButton = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    // Modal functionality
+    const modal = document.getElementById('posterModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeModal = document.querySelector('.close-modal');
+    const viewButtons = document.querySelectorAll('.view-poster');
+
+    viewButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const posterItem = this.closest('.poster-item');
+        const imgSrc = posterItem.querySelector('img').src;
+        modalImg.src = imgSrc;
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('show');
+      document.body.style.overflow = 'auto';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Update active nav link
+    document.querySelectorAll('.nav-links li a').forEach(link => {
+      if (link.getAttribute('href') === 'posters.html') {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume | Harsh Singla</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #98FF98; /* Mint green accent */
+      --primary-dark: #7AD07A; /* Darker mint */
+      --dark: #2E2E2E; /* Dark gray background */
+      --darker: #252525; /* Slightly darker for contrast */
+      --light: #F5F5F5; /* Off-white text */
+      --gray: #3D3D3D; /* Medium gray for elements */
+      --card-bg: #383838; /* Card background */
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--darker);
+      padding: 1.5rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(152, 255, 152, 0.2);
+    }
+
+    .logo {
+      color: var(--primary);
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 15px rgba(152, 255, 152, 0.5);
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links li a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+    
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: var(--primary);
+    }
+
+    .nav-links li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary);
+      transition: width 0.3s;
+    }
+
+    .nav-links li a:hover::after,
+    .nav-links li a.active::after {
+      width: 100%;
+    }
+
+    /* Main Content */
+    .section {
+      padding: 8rem 10% 4rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 4rem;
+      color: var(--primary);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s;
+      font-weight: 700;
+    }
+
+    .section-title.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 4px;
+      background-color: var(--primary);
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* Resume Content */
+    .resume-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 3rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s;
+      border: 1px solid rgba(152, 255, 152, 0.1);
+    }
+
+    .resume-container.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .resume-preview {
+      width: 100%;
+      height: 500px;
+      background-color: var(--gray);
+      border: 1px solid rgba(152, 255, 152, 0.2);
+      margin-bottom: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .resume-preview:hover {
+      border-color: rgba(152, 255, 152, 0.4);
+      box-shadow: 0 5px 20px rgba(152, 255, 152, 0.1);
+    }
+
+    .resume-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.5s;
+    }
+
+    .resume-preview:hover img {
+      transform: scale(1.02);
+    }
+
+    .resume-actions {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 2.2rem;
+      background-color: var(--primary);
+      color: var(--darker);
+      text-decoration: none;
+      border-radius: 50px;
+      transition: all 0.3s;
+      border: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(152, 255, 152, 0.3);
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(152, 255, 152, 0.4);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(152, 255, 152, 0.1);
+      color: var(--primary);
+    }
+
+    .resume-details {
+      width: 100%;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .resume-details p {
+      color: rgba(245,245,245,0.8);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .skill-tag {
+      background-color: var(--gray);
+      color: var(--primary);
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: 1px solid rgba(152, 255, 152, 0.2);
+    }
+
+    .skill-tag:hover {
+      background-color: rgba(152, 255, 152, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(152, 255, 152, 0.1);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem;
+      background-color: var(--darker);
+      color: var(--light);
+      border-top: 1px solid var(--gray);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-links a {
+      color: var(--light);
+      font-size: 1.8rem;
+      transition: all 0.3s;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--gray);
+    }
+
+    .social-links a:hover {
+      color: var(--darker);
+      transform: translateY(-5px) scale(1.1);
+      background-color: var(--primary);
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary);
+      color: var(--darker);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 999;
+      box-shadow: 0 4px 20px rgba(152, 255, 152, 0.3);
+      font-size: 1.5rem;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .section {
+        padding: 7rem 5% 3rem;
+      }
+      
+      .nav-links {
+        gap: 1.5rem;
+      }
+      
+      .resume-preview {
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 6rem 5% 2rem;
+      }
+      
+      .resume-container {
+        padding: 2rem;
+      }
+      
+      .resume-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .navbar {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        margin-top: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 3rem;
+      }
+
+      .resume-preview {
+        height: 300px;
+      }
+
+      .skill-tag {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">Harsh Singla</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="posters.html">Posters</a></li>
+        <li><a href="resume.html" class="active">Resume</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section resume">
+      <h2 class="section-title">My Resume</h2>
+      
+      <div class="resume-container">
+        <div class="resume-preview">
+          <img src="https://www.nshm.com/wp-content/uploads/2023/05/Top5AIMLToolsEveryB.TechCSEStudentShouldKnow.jpg" alt="Resume Preview">
+        </div>
+        
+        <div class="resume-actions">
+          <a href="image/harsh-resume.pdf" class="btn" target="_blank" download>
+            <i class="fas fa-download"></i> Download PDF
+          </a>
+          <a href="image/harsh-resume.pdf" class="btn btn-outline" target="_blank">
+            <i class="fas fa-external-link-alt"></i> View in Browser
+          </a>
+          <a href="contact.html" class="btn btn-outline">
+            <i class="fas fa-envelope"></i> Contact Me
+          </a>
+        </div>
+        
+        <div class="resume-details">
+          <p>For the most up-to-date version of my resume, please download the PDF or feel free to reach out directly.</p>
+          
+          <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Key Skills</h3>
+          <div class="skills-list">
+            <span class="skill-tag">Web Development</span>
+            <span class="skill-tag">UI/UX Design</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Photoshop</span>
+            <span class="skill-tag">Project Management</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Machine Learning</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/harsh-singla-02683832a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/harsh-singla09" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/harsh.singla.3133?igsh=aDgwNG5lc2VhNjhk" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.behance.net/harshsingla6" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+    </div>
+    <p style="margin-top: 1.5rem; color: var(--primary);">&copy; 2023 Harsh Singla. All Rights Reserved.</p>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+  <script>
+    // Scroll animations
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.section-title, .resume-container');
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        
+        if (elementPosition < screenPosition) {
+          element.classList.add('show');
+        }
+      });
+    };
+
+    // Run on load and scroll
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+
+    // Back to top button
+    const backToTopButton = document.querySelector('.back-to-top');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    // Update active nav link
+    document.querySelectorAll('.nav-links li a').forEach(link => {
+      if (link.getAttribute('href') === 'resume.html') {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
